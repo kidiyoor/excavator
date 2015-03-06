@@ -1,15 +1,20 @@
-require "sinatra"
-require "nokogiri"
-require "uri"
-require "net/http"
-require "time"
-require "json"
-require "open-uri"
+
+imports = {
+"sinatra"  => (require "sinatra"),
+"nokogiri" => (require "nokogiri"),
+"net/http" => (require "net/http"),
+"time"     => (require "time"),
+"json"     => (require "json"),
+"open-uri" => (require "open-uri")
+}
+
+puts imports
 
 get "/scrape" do
 	content_type :json
 	puts params
 	if params.has_key? "url" and params.has_key? "columns" and params.has_key? "rules"
+		if params.has_key? "if-modified-since"
 		rules   = params["rules"].split("*,")
 		columns = params["columns"].split("*,")
 		webpage = Nokogiri::HTML::Document.parse(open(params["url"]))
