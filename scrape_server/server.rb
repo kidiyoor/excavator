@@ -14,7 +14,6 @@ get "/scrape" do
 	content_type :json
 	puts params
 	if params.has_key? "url" and params.has_key? "columns" and params.has_key? "rules"
-		if params.has_key? "if-modified-since"
 		rules   = params["rules"].split("*,")
 		columns = params["columns"].split("*,")
 		webpage = Nokogiri::HTML::Document.parse(open(params["url"]))
